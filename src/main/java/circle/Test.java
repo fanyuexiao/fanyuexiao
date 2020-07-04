@@ -9,11 +9,8 @@ import org.springframework.context.support.GenericApplicationContext;
 public class Test {
 
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext();
-        ac.setAllowCircularReferences(false);
-        ac.register(Config.class);
-        ac.refresh();
-        ac.getBean(Dilraba.class);
+        AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(Config.class);
+        ac.getBean(Gy.class).getFyx().getGy();
         /**
          * String[] beanDefinitionNames = ac.getBeanDefinitionNames();
          *
@@ -33,6 +30,9 @@ public class Test {
          * ac.refresh();
          * 事实上，ac.register(config.class)调用的是beanFactory的setAllowCircularReferences()
          *
+         *
+         * commonAnnotationBeanPostProcessor-->@Resource
+         * AutowiredAnnotationBeanPostProcessor-->@Autowired
          */
     }
 }

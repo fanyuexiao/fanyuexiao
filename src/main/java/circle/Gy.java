@@ -11,4 +11,8 @@ public class Gy {
     public Gy(){
         System.out.println("gy constructor");
     }
+
+    public Fyx getFyx(){
+        return fyx;
+    }
 }
