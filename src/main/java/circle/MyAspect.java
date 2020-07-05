@@ -9,12 +9,22 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class MyAspect {
     @Pointcut("execution(* circle.Fyx.*(..))")
-    public void anyPublicMethod(){
+    public void anyFyxMethod(){
 
     }
 
-    @Before("anyPublicMethod()")
-    public void before(){
-        System.out.println("------------------------aop--------------------------");
+    @Pointcut("execution(* circle.Zyj.*(..))")
+    public void anyZyjMethod(){
+
+    }
+
+    @Before("anyFyxMethod()")
+    public void fyxBefore(){
+        System.out.println("------------------------fyx aop--------------------------");
+    }
+
+    @Before("anyZyjMethod()")
+    public void zyjBefore(){
+        System.out.println("------------------------zyj aop--------------------------");
     }
 }

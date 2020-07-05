@@ -1,18 +1,17 @@
 package circle;
 
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory;
-import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.GenericApplicationContext;
 
 public class Test {
 
     public static void main(String[] args) {
         AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(Config.class);
-        ac.getBean(Gy.class).getFyx().getGy();
+        ac.getBean(Fyx.class).getGy();
+        Zyj bean = ac.getBean(Zyj.class);
+        System.out.println();
         /**
          * String[] beanDefinitionNames = ac.getBeanDefinitionNames();
+         *
          *
          * beanDefinitionMap在beanFactory中
          * beanFactory默认使用DefaultListableBeanFactory
@@ -33,6 +32,25 @@ public class Test {
          *
          * commonAnnotationBeanPostProcessor-->@Resource
          * AutowiredAnnotationBeanPostProcessor-->@Autowired
+         *
+         *
+         * 一级缓存，单例池
+         * 三级缓存，防止重复创建
+         * 二级缓存，存了一个工厂，在循环依赖的情况下可以提前某些生命周期，例如：提前完成代理
+         * 正常步骤：注入属性-->生命周期回调方法（@PostConstruct-->InitializingBean-->代理），而循环依赖则情况下在注入属性时完成代理
+         * Zyj（被代理）无循环依赖，则代理在
+         * org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#initializeBean
+         * 	org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#applyBeanPostProcessorsAfterInitialization（完成代理）
+         * 		org.springframework.beans.factory.config.BeanPostProcessor#postProcessAfterInitialization（某个后置处理器）
+         * Fyx（被代理）和Gy循环依赖，则代理在
+         * org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#doCreateBean
+         *  org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#populateBean（完成代理）
+         *  即Fyx注入Gy，Gy生命周期走到注入Fyx的时候（此时Fyx并没有走到代理的生命周期），Gy通过二级缓存获得生成Fyx的工厂，此工厂完成了代理
+         *  另外，只有代理被提前了，其他生命周期回调方法（@PostConstruct，InitializingBean）并没有被提前
+         *
+         *  Spring容器
+         *  SPring中有许多组件，BeanFactory,BeanDefinitionMap,三个缓存,BeanDefinition,BeanFactoryPostProcessor,BeanPostProcessor,等等
+         *  这些组件在一起，统称为Spring容器
          */
     }
 }

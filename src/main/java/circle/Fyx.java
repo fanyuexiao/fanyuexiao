@@ -3,6 +3,8 @@ package circle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 @Component
 public class Fyx {
     @Autowired
@@ -12,7 +14,12 @@ public class Fyx {
         System.out.println("fyx constructor");
     }
 
-    public void getGy() {
-        System.out.println(gy);
+    public Gy getGy() {
+        return gy;
+    }
+
+    @PostConstruct
+    public void postConstruct(){
+        System.out.println("fyx postConstruct");
     }
 }
