@@ -15,10 +15,16 @@
             <artifactId>tomcat-embed-core</artifactId>
             <version>8.5.56</version>
         </dependency>
-        <!--web-->
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-jasper</artifactId>
+            <version>8.5.56</version>
+        </dependency>
+
+        <!--spring mvc  注意：spring-webmvc依赖了spring-web-->
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
+            <artifactId>spring-webmvc</artifactId>
             <version>5.2.0.RELEASE</version>
         </dependency>
         <!--spring核心依赖-->
