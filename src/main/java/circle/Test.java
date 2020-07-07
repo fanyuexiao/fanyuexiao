@@ -15,6 +15,10 @@ public class Test {
          *
          * beanDefinitionMap在beanFactory中
          * beanFactory默认使用DefaultListableBeanFactory
+         * AnnotationConfigApplicationContext的父类GenericApplicationContext在构造函数中new了DefaultListableBeanFactory
+         * public GenericApplicationContext() {
+         * 	    this.beanFactory = new DefaultListableBeanFactory();
+         * }
          * ac.getBeanFactory().getBeanDefinition("");
          * 调用的是DefaultListableBeanFactory中的this.beanDefinitionMap.get(beanName);
          *

@@ -68,7 +68,6 @@ public class MyWebApplicationInitializer implements WebApplicationInitializer {
          *       -->org.springframework.web.servlet.FrameworkServlet#initWebApplicationContext()
          *       -->org.springframework.web.servlet.FrameworkServlet#configureAndRefreshWebApplicationContext(org.springframework.web.context.ConfigurableWebApplicationContext)
          *       -->org.springframework.context.support.AbstractApplicationContext#refresh()
-         *       事实上new DispatcherServlet(ac)-->springMVC容器，ac.refresh()-->spring容器
          */
     }
 }
