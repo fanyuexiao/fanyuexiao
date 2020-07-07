@@ -49,7 +49,7 @@ public class Test {
          *  另外，只有代理被提前了，其他生命周期回调方法（@PostConstruct，InitializingBean）并没有被提前
          *
          *  Spring容器
-         *  SPring中有许多组件，BeanFactory,BeanDefinitionMap,三个缓存,BeanDefinition,BeanFactoryPostProcessor,BeanPostProcessor,等等
+         *  Spring中有许多组件，BeanFactory,BeanDefinitionMap,三个缓存,BeanDefinition,BeanFactoryPostProcessor,BeanPostProcessor,等等
          *  这些组件在一起，统称为Spring容器
          */
     }

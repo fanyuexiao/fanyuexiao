@@ -22,7 +22,7 @@ public class MyWebApplicationInitializer implements WebApplicationInitializer {
         System.out.println("init");
         AnnotationConfigWebApplicationContext ac = new AnnotationConfigWebApplicationContext();
         ac.register(Config.class);
-        ac.refresh();
+        //ac.refresh();
         /**
          * <servlet>
          *     <servlet-name>SpringMVC</servlet-name>
@@ -57,6 +57,18 @@ public class MyWebApplicationInitializer implements WebApplicationInitializer {
          *      因此，要将AnnotationConfigWebApplicationContext关联给dispatchServlet
          *
          * @HandlesTypes （https://www.cnblogs.com/feixuefubing/p/11593411.html）
+         *
+         *
+         * 注意：如果使用@EnableWebMvc注解，再调用ac.refresh()会报错（no ServletContext Set）。
+         *       因为@EnableWebMvc需要一个servletContext,而执行到ac.refresh()时servletContext还没有被初始化，就会报错，
+         *       而new DispatcherServlet(ac)会初始化servletContext，同时也会调用到ac.refresh()，如下：
+         *       springMVC.setLoadOnStartup(1);
+         *       -->org.springframework.web.servlet.HttpServletBean#init()
+         *       -->org.springframework.web.servlet.FrameworkServlet#initServletBean()
+         *       -->org.springframework.web.servlet.FrameworkServlet#initWebApplicationContext()
+         *       -->org.springframework.web.servlet.FrameworkServlet#configureAndRefreshWebApplicationContext(org.springframework.web.context.ConfigurableWebApplicationContext)
+         *       -->org.springframework.context.support.AbstractApplicationContext#refresh()
+         *       事实上new DispatcherServlet(ac)-->springMVC容器，ac.refresh()-->spring容器
          */
     }
 }
