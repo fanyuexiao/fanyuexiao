@@ -4,3 +4,65 @@ org.springframework.beans.factory.support.AbstractBeanFactory.transformedBeanNam
    在BeanFactory的beanDefinitionMap中，FactoryBean以<beanName,bean>的格式存储，而beanName不含有&字符。
    因此需要将&从name中移除，才能获取到bean
 2、别名问题，@AliasFor
+
+org.springframework.context.annotation.AnnotationConfigApplicationContext#AnnotationConfigApplicationContext
+-->org.springframework.context.annotation.AnnotationConfigApplicationContext#register
+-->org.springframework.context.annotation.AnnotatedBeanDefinitionReader#registerBean
+-->org.springframework.context.annotation.AnnotatedBeanDefinitionReader#doRegisterBean
+-->org.springframework.beans.factory.support.BeanDefinitionReaderUtils#registerBeanDefinition
+-->org.springframework.beans.factory.support.BeanDefinitionRegistry#registerBeanDefinition
+-->org.springframework.beans.factory.support.DefaultListableBeanFactory#registerBeanDefinition
+完成了spring内置beanDefinition的扫描（spring开天辟地的类）
+org.springframework.context.support.AbstractApplicationContext#invokeBeanFactoryPostProcessors
+完成了自定义类的beanDefinition扫描（即，被componentScan的类）以及执行beanFactory后置处理器。
+执行这句之前，beanFactory中的beanDefinitionMap中只有spring内置的beanDefinition，以及通过构造参数传给spring的配置类
+执行这句之后，自定义对象也变成beanDefinition被加入到beanDefinitionMap中了。
+
+org.springframework.context.support.AbstractApplicationContext#finishBeanFactoryInitialization
+其中调用preInstantiateSingletons方法，先验证beanDefinition（是否单例，是否懒加载，等等）
+验证通过后，调用getBean实例化单例bean
+
+org.springframework.beans.factory.support.AbstractBeanFactory#transformedBeanName
+验证bean的name是否合法
+
+org.springframework.beans.factory.support.AbstractBeanFactory#resolveBeanClass
+从beanDefinition对象中获取bean的类型
+
+@autowired和autowiring的区别 https://www.jianshu.com/p/3c7e0608ff1f
+
+spring在createBean中9次执行后置处理器
+1、实例化之前
+org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#resolveBeforeInstantiation
+	org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#applyBeanPostProcessorsBeforeInstantiation
+		org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation
+	org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#applyBeanPostProcessorsAfterInitialization
+		org.springframework.beans.factory.config.BeanPostProcessor#postProcessAfterInitialization
+2、推断构造函数（由后置处理器决定访问哪些构造方法）
+org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#determineConstructorsFromBeanPostProcessors
+	org.springframework.beans.factory.config.SmartInstantiationAwareBeanPostProcessor#determineCandidateConstructors
+3、合并BeanDefinition
+org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#applyMergedBeanDefinitionPostProcessors
+	org.springframework.beans.factory.support.MergedBeanDefinitionPostProcessor#postProcessMergedBeanDefinition
+4、解决循环引用，加入二级缓存时用的
+org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#getEarlyBeanReference
+	org.springframework.beans.factory.config.SmartInstantiationAwareBeanPostProcessor#getEarlyBeanReference
+5、6、注入属性时
+org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#populateBean
+	org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#postProcessAfterInstantiation（是否注入属性扩展点）
+	org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#postProcessPropertyValues（如果continueWithPropertyPopulation为true，注入属性）
+7、8、初始化方法（生命周期回调方法， InitializingBean @PostConstructor）
+org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#initializeBean
+	org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#applyBeanPostProcessorsBeforeInitialization
+		org.springframework.beans.factory.config.BeanPostProcessor#postProcessBeforeInitialization（执行@PostConstruct）
+	org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#applyBeanPostProcessorsAfterInitialization（完成代理）
+		org.springframework.beans.factory.config.BeanPostProcessor#postProcessAfterInitialization
+	注意：
+	org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#invokeInitMethods（执行InitializingBean）
+9、销毁
+
+如何把一个对象交给spring管理
+@bean registerSingleton factorybean factorymethod
+
+如何产生一个对象
+new 反射 clone 序列化
+
