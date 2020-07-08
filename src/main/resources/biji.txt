@@ -1,0 +1,6 @@
+org.springframework.beans.factory.support.AbstractBeanFactory.transformedBeanName
+通过name获得beanName,不是用name直接作为beanName主要有两个原因
+1、name可能会以&开头，表示调用者想获得FactoryBean本身，而不是FactoryBean生产出来的bean。
+   在BeanFactory的beanDefinitionMap中，FactoryBean以<beanName,bean>的格式存储，而beanName不含有&字符。
+   因此需要将&从name中移除，才能获取到bean
+2、别名问题，@AliasFor
