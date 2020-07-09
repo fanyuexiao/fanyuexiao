@@ -30,7 +30,7 @@ org.springframework.beans.factory.support.AbstractBeanFactory#resolveBeanClass
 
 @autowired和autowiring的区别 https://www.jianshu.com/p/3c7e0608ff1f
 
-spring在createBean中9次执行后置处理器
+spring在createBean中9次执行后置处理器（后置处理器可以插手bean的实例化、初始化过程）
 1、实例化之前
 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#resolveBeforeInstantiation
 	org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#applyBeanPostProcessorsBeforeInstantiation
@@ -59,6 +59,8 @@ org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#ini
 	注意：
 	org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#invokeInitMethods（执行InitializingBean）
 9、销毁
+
+ApplicationContextAware实现原理-->ApplicationContextAwareProcessor
 
 如何把一个对象交给spring管理
 @bean registerSingleton factorybean factorymethod
