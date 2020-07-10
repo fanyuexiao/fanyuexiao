@@ -58,9 +58,8 @@ org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#ini
 		org.springframework.beans.factory.config.BeanPostProcessor#postProcessAfterInitialization
 	注意：
 	org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#invokeInitMethods（执行InitializingBean）
-9、销毁
-
-ApplicationContextAware实现原理-->ApplicationContextAwareProcessor
+9、销毁(@PreDestroy,DisposableBean)
+CommonAnnotationBeanPostProcessor
 
 如何把一个对象交给spring管理
 @bean registerSingleton factorybean factorymethod
