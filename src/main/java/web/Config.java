@@ -17,6 +17,10 @@ public class Config implements WebMvcConfigurer {
     /**
      * @EnableWebMvc 引入了DelegatingWebMvcConfiguration，
      * DelegatingWebMvcConfiguration实现了ApplicationContextAware，会被spring生命周期回调函数调用，从而生效
+     *
+     * 也可以实现extendMessageConverters
+     * configureMessageConverters不会继承框架默认的消息转换器，只有方法里面自己配置的消息转换器
+     * extendMessageConverters会继承框架默认的消息转换器，除了自己配置的还有框架自带的
      */
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         System.out.println("configureMessageConverters");
