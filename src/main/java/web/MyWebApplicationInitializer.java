@@ -49,7 +49,7 @@ public class MyWebApplicationInitializer implements WebApplicationInitializer {
         /**
          * 如何将dispatchServlet注册给web容器（tomcat、jetty、undertow）
          * 1、web.xml
-         * 2、在类上加@WebServlet
+         * 2、在类上加@WebServlet（servlet3.0新特性）
          * 3、利用spi和servlet3.0新特性（https://blog.csdn.net/pingnanlee/article/details/80940993），手动注册
          * 注意：
          *      web.xml方式中，dispatchServlet需要关联一个配置文件（springMVC.xml），
