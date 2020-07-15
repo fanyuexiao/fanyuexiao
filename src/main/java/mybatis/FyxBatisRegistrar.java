@@ -8,6 +8,15 @@ import org.springframework.core.type.AnnotationMetadata;
 
 public class FyxBatisRegistrar implements ImportBeanDefinitionRegistrar {
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
+        /**
+         * <bean id = "fyxBatisFactoryBean" class="mybatis.FyxBatisFactoryBean">
+         *     <poperty name="mapperInterface" value="mybatis.FyxDao"></poperty>
+         * </bean>
+         *
+         * <bean id = "fyxBatisFactoryBean" class="org.mybatis.spring.mapper.MapperFactoryBean">
+         *      <poperty name="mapperInterface" value="mybatis.FyxDao"></poperty>
+         * </bean>
+         */
         BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(FyxBatisFactoryBean.class);
         AbstractBeanDefinition beanDefinition = beanDefinitionBuilder.getBeanDefinition();
         beanDefinition.getPropertyValues().add("mapperInterface","mybatis.FyxDao");

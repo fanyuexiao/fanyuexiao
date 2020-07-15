@@ -5,15 +5,13 @@ org.springframework.beans.factory.support.AbstractBeanFactory.transformedBeanNam
    因此需要将&从name中移除，才能获取到bean
 2、别名问题，@AliasFor
 
-org.springframework.context.annotation.AnnotationConfigApplicationContext#AnnotationConfigApplicationContext
--->org.springframework.context.annotation.AnnotationConfigApplicationContext#register
--->org.springframework.context.annotation.AnnotatedBeanDefinitionReader#registerBean
--->org.springframework.context.annotation.AnnotatedBeanDefinitionReader#doRegisterBean
--->org.springframework.beans.factory.support.BeanDefinitionReaderUtils#registerBeanDefinition
--->org.springframework.beans.factory.support.BeanDefinitionRegistry#registerBeanDefinition
--->org.springframework.beans.factory.support.DefaultListableBeanFactory#registerBeanDefinition
+spring bean的扫描
+1、org.springframework.context.annotation.AnnotationConfigApplicationContext.AnnotationConfigApplicationContext()
+-->this.reader = new AnnotatedBeanDefinitionReader(this);
 完成了spring内置beanDefinition的扫描（spring开天辟地的类）
-org.springframework.context.support.AbstractApplicationContext#invokeBeanFactoryPostProcessors
+2、org.springframework.context.annotation.AnnotationConfigApplicationContext.register(componentClasses)
+完成了手动传给spring的类的扫描
+3、org.springframework.context.support.AbstractApplicationContext#invokeBeanFactoryPostProcessors
 完成了自定义类的beanDefinition扫描（即，被componentScan的类）以及执行beanFactory后置处理器。
 执行这句之前，beanFactory中的beanDefinitionMap中只有spring内置的beanDefinition，以及通过构造参数传给spring的配置类
 执行这句之后，自定义对象也变成beanDefinition被加入到beanDefinitionMap中了。
@@ -66,4 +64,7 @@ CommonAnnotationBeanPostProcessor
 
 如何产生一个对象
 new 反射 clone 序列化
+
+spring自动注入的方式
+constructor byType byName
 
