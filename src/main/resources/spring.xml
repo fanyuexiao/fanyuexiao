@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--
+    spring自动注入的方式
+    constructor setter(@Autowired是setter方式的变异，即@Autowired是用setter实现的)
+    spring注入模型（Autowiring modes，即怎么找到要注入的bean，找到之后使用注入方式注入）
+    no（手动装配，通过xml配置） byType byName constructor（要和byType，byName结合）
+    -->
+
+    <bean id="a" class="autowiring.A"></bean>
+
+    <!--Autowiring modes：no，手动装配，自己把A注入给Fyx-->
+    <bean id="fyx" class="autowiring.Fyx">
+        <property name="a" ref="a"></property>
+    </bean>
+
+    <!--Autowiring modes：byName，通过名字自动把A装配给Fyx-->
+    <bean id="gy" class="autowiring.Gy" autowire="byName"></bean>
+
+    <!--Autowiring modes：byType，通过类型自动把A装配给Fyx-->
+    <bean id="zyj" class="autowiring.Zyj" autowire="byType"></bean>
+</beans>

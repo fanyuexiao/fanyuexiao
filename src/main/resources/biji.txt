@@ -77,6 +77,3 @@ CommonAnnotationBeanPostProcessor
 如何产生一个对象
 new 反射 clone 序列化
 
-spring自动注入的方式
-constructor byType byName
-
