@@ -6,14 +6,17 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--==========================关于spring自动注入的实验配置=====================================================================-->
     <!--
     spring自动注入的方式
         constructor setter(@Autowired是setter方式的变异，即@Autowired是用setter实现的)
     spring注入模型（Autowiring modes，即怎么找到要注入的bean，找到之后使用注入方式注入）
-        官方网站上：no（手动装配，通过xml配置） byType byName constructor（要和byType，byName结合）
+        官方网站上：no（手动装配，通过xml配置）
+                   byType （setter）
+                   byName （setter）
+                   constructor（constructor）
         源码中：实际上还有一种注入模型，自动推断（autodetect），源码中有，官网没有写出来
     -->
-
     <bean id="a" class="autowiring.A"></bean>
 
     <!--Autowiring modes：no，手动装配，自己把A注入给Fyx-->
@@ -26,4 +29,12 @@
 
     <!--Autowiring modes：byType，通过类型自动把A装配给Fyx-->
     <bean id="zyj" class="autowiring.Zyj" autowire="byType"></bean>
+
+    <!--===========================关于factory method是否具有生命周期的配置============================================-->
+    <!--factory method 静态工厂-->
+    <bean id="staticFactory" class="lifecircle.StaticFactory" factory-method="getFactoryMethodBean"></bean>
+
+    <!--factory method 实例工厂-->
+    <bean id="instanceFactory" class="lifecircle.InstanceFactory"></bean>
+    <bean id="instanceFactory1" factory-bean="instanceFactory" factory-method="getFactoryMethodBean"></bean>
 </beans>

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Fyx {
     /**
-     * @Autowired 实际逻辑：先按照类型找，再按照名字找，找到唯一的就直接注入，会覆盖byType，byName
+     * @Autowired 实际逻辑：调用无参构造方法，属性先按照类型找，再按照名字找，找到唯一的就直接注入，会覆盖byType，byName
      *
      * 做一个实验，证明@Autowired不是ByType
      * 注入一个I，有两个实现类X（ix），Y（iy），设置其注入模型为byType
@@ -37,6 +37,19 @@ public class Fyx {
 
     public void setA(A a) {
         this.a = a;
+    }
+
+    /**
+     * Autowiring modes：constructor
+     * 当注入模型是constructor时，会通过推断构造方法推断出使用哪一个构造方法
+     */
+    public Fyx(){
+        System.out.println("default");
+    }
+
+    public Fyx(A a){
+        this.a = a;
+        System.out.println("A");
     }
 
     public void print(){
