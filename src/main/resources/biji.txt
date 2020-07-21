@@ -63,8 +63,9 @@ org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#pop
 	org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#postProcessPropertyValues（如果continueWithPropertyPopulation为true，注入属性）
 7、8、初始化方法（生命周期回调方法， InitializingBean @PostConstructor）
 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#initializeBean
+    org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeAwareMethods（执行部分Aware，BeanNameAware、BeanClassLoaderAware、BeanFactoryAware）
 	org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#applyBeanPostProcessorsBeforeInitialization
-		org.springframework.beans.factory.config.BeanPostProcessor#postProcessBeforeInitialization（执行@PostConstruct）
+		org.springframework.beans.factory.config.BeanPostProcessor#postProcessBeforeInitialization（执行@PostConstruct、ApplicationContextAware）
 	org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#applyBeanPostProcessorsAfterInitialization（完成代理）
 		org.springframework.beans.factory.config.BeanPostProcessor#postProcessAfterInitialization
 	注意：
