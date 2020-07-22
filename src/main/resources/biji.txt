@@ -4,6 +4,9 @@ org.springframework.beans.factory.support.AbstractBeanFactory.transformedBeanNam
    在BeanFactory的beanDefinitionMap中，FactoryBean以<beanName,bean>的格式存储，而beanName不含有&字符。
    因此需要将&从name中移除，才能获取到bean
 2、别名问题，@AliasFor
+3、对name的合法性验证
+
+beanDefinitionHolder的作用：其实没什么用，为了别名，@AliasFor，对beanDefinition做了个封装
 
 spring bean的扫描
 1、org.springframework.context.annotation.AnnotationConfigApplicationContext.AnnotationConfigApplicationContext()
