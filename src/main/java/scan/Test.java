@@ -19,7 +19,11 @@ public class Test {
      * spring bean的扫描（被加到beanDefinitionMap）
      * 一、spring内置bean的扫描（spring开天辟地的类）
      *      org.springframework.context.annotation.AnnotationConfigApplicationContext.AnnotationConfigApplicationContext()
-     *      this.reader = new AnnotatedBeanDefinitionReader(this);
+     *      this.reader = new AnnotatedBeanDefinitionReader(this)
+     *      org.springframework.context.annotation.AnnotatedBeanDefinitionReader#AnnotatedBeanDefinitionReader
+     *      org.springframework.context.annotation.AnnotationConfigUtils#registerAnnotationConfigProcessors
+     *      org.springframework.context.annotation.AnnotationConfigUtils#registerAnnotationConfigProcessors
+     *
      * 二、手动传给spring的bean的扫描（Config.class）
      *      org.springframework.context.annotation.AnnotationConfigApplicationContext.register()
      *      此时只是被加到beanDefinitionMap中，并没有对其进行全注解解析

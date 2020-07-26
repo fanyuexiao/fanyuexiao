@@ -58,3 +58,11 @@ CommonAnnotationBeanPostProcessor
 如何产生一个对象
 new 反射 clone 序列化
 
+单例依赖多例的解决方法
+ApplicationContextAware、@Lookup
+
+lifecycle callback
+1、bean的lifecycle callback(初始化、销毁)
+@postConstructor --> initializingBean --> <init-method="">
+2、spring容器的lifecycle callback（启动、销毁）
+

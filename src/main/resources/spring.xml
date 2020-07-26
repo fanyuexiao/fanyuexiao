@@ -9,8 +9,10 @@
     <!--==========================关于spring自动注入的实验配置=====================================================================-->
     <!--
     spring自动注入的方式
-        constructor setter(@Autowired是setter方式的变异，即@Autowired是用setter实现的)
+        constructor setter
+        (@Autowired是setter方式的变异，Field field,field.set)
     spring注入模型（Autowiring modes，即怎么找到要注入的bean，找到之后使用注入方式注入）
+        spring注入模型仅仅针对xml方式的bean配置
         官方网站上：no（手动装配，通过xml配置）
                    byType （setter）
                    byName （setter）
@@ -29,6 +31,8 @@
 
     <!--Autowiring modes：byType，通过类型自动把A装配给Fyx-->
     <bean id="zyj" class="autowiring.Zyj" autowire="byType"></bean>
+
+    <!--也可以在头部加上：default-autowire="byType"-->
 
     <!--===========================关于factory method是否具有生命周期的配置============================================-->
     <!--factory method 静态工厂-->
