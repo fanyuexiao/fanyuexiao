@@ -54,6 +54,7 @@ CommonAnnotationBeanPostProcessor
 
 如何把一个对象交给spring管理（第三方提供的bean可能沒有生命周期，lifecircle包做了以下情况的实验）
 @bean（有） registerSingleton（沒有） factorybean（没有） factorymethod（静态工厂法（有）、实例工厂法（有））
+registerSingleton：动态数据源，注射多个datasource时用到
 
 如何产生一个对象
 new 反射 clone 序列化
@@ -65,4 +66,7 @@ lifecycle callback
 1、bean的lifecycle callback(初始化、销毁)
 @postConstructor --> initializingBean --> <init-method="">
 2、spring容器的lifecycle callback（启动、销毁）
+Lifecycle、SmartLifecycle
 
+接口（多个实现）注入
+xml手动装配、@Autowired属性名、@Qualifer

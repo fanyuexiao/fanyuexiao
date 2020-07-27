@@ -12,6 +12,7 @@ public class Test {
         /**
          * String[] beanDefinitionNames = ac.getBeanDefinitionNames();
          *
+         * ps：循环依赖可以自己注入自己
          *
          * beanDefinitionMap在beanFactory中
          * beanFactory默认使用DefaultListableBeanFactory
