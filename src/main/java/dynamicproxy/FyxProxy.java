@@ -10,20 +10,21 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
 public class FyxProxy {
+    protected FyxInvocationHandler h;
+
     public static Object newProxyInstance(Object o,FyxInvocationHandler h) throws IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException, ClassNotFoundException {
         Class clazz = o.getClass().getInterfaces()[0];
         String infName = clazz.getSimpleName();
         String line = "\n"; //换行
         String tab = "\t";//tab
         String packageContent = "package com.dilraba;" + line;
-        String importContent = "import " + clazz.getName() + ";" +line;
-        String classFirstLineContent = "public class $ProxyFyx implements " + infName + "{" + line;
+        String importContent = "import " + clazz.getName() + ";" +line + "import " + FyxProxy.class.getName() + ";" + line;
+        String classFirstLineContent = "public class $ProxyFyx extends FyxProxy implements " + infName + "{" + line;
         String fieldContent = tab + "private " + infName + " o;" + line;
         String constructorContent = tab + "public $ProxyFyx (" + infName + " o) {" + line
                 +tab + tab + "this.o = o;" + line
