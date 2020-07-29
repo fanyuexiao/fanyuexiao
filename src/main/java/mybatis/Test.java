@@ -8,7 +8,7 @@ public class Test {
         AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(Config.class);
         FyxDao fyxDao = (FyxDao) ac.getBean("fyxBatisFactoryBean");
         System.out.println(fyxDao);
-        fyxDao.count();
+        fyxDao.count("a");
         GyDao gyDao = (GyDao) ac.getBean("fyxBatisFactoryBean1");
         gyDao.update();
     }

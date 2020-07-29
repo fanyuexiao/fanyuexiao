@@ -17,42 +17,71 @@ import java.net.URLClassLoader;
 public class FyxProxy {
     protected FyxInvocationHandler h;
 
+    public FyxProxy(FyxInvocationHandler h) {
+        this.h = h;
+    }
+
     public static Object newProxyInstance(Object o,FyxInvocationHandler h) throws IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException, ClassNotFoundException {
         Class clazz = o.getClass().getInterfaces()[0];
         String infName = clazz.getSimpleName();
         String line = "\n"; //换行
         String tab = "\t";//tab
         String packageContent = "package com.dilraba;" + line;
-        String importContent = "import " + clazz.getName() + ";" +line + "import " + FyxProxy.class.getName() + ";" + line;
+        String importContent = "import " + clazz.getName() + ";" +line
+                + "import " + FyxProxy.class.getName() + ";" + line
+                + "import java.lang.reflect.UndeclaredThrowableException;" + line
+                + "import java.lang.reflect.Method;" + line
+                + "import dynamicproxy.FyxInvocationHandler;" + line;
         String classFirstLineContent = "public class $ProxyFyx extends FyxProxy implements " + infName + "{" + line;
-        String fieldContent = tab + "private " + infName + " o;" + line;
-        String constructorContent = tab + "public $ProxyFyx (" + infName + " o) {" + line
-                +tab + tab + "this.o = o;" + line
+        String fieldContent = "";
+        String constructorContent = tab + "public $ProxyFyx (FyxInvocationHandler h){" + line
+                +tab + tab + "super(h);" + line
                 +tab + "}" + line;
         String methodContent = "";
+        String staticContent = tab + "static {" + line
+                + tab + tab + "try {" + line;
         Method[] methods = clazz.getDeclaredMethods();
+        int methodsFlag = 0;
         for (Method method : methods) {
             String returnType = method.getReturnType().getSimpleName();//String
             String methodName = method.getName();//say
             Class[] args = method.getParameterTypes();//[String.class]   [Integer.class]
             String argsContent = "";
             String paramsContent = "";
-            int flag = 0;
+            int argsflag = 0;
+            fieldContent += tab + "private static Method m" + methodsFlag + ";" + line;
+            staticContent += tab + tab + tab + "m" + methodsFlag
+                    + "=Class.forName(\"" + clazz.getCanonicalName()
+                    + "\").getMethod(\"" + methodName + "\"";
             for (Class arg : args){
-                argsContent += arg.getSimpleName() + " p" + flag + ",";
-                paramsContent += "p" + flag + ",";
-                flag += 1;
+                argsContent += arg.getSimpleName() + " p" + argsflag + ",";
+                paramsContent += "p" + argsflag + ",";
+                argsflag += 1;
+                staticContent += ",Class.forName(\"" + arg.getCanonicalName() + "\")";
             }
+            staticContent += ");" + line;
             if (argsContent.length() > 0){
                 argsContent = argsContent.substring(0, argsContent.lastIndexOf(",") - 1);
                 paramsContent = paramsContent.substring(0, paramsContent.lastIndexOf(",") - 1);
             }
             methodContent += tab + "public " + returnType + " " + methodName + "(" + argsContent + ") {" + line
-                + tab + tab + "System.out.println(\"log\");" + line
-                + tab + tab + "o." + methodName + "(" + paramsContent + ");" + line
+                + tab + tab + "try {" + line
+                + tab + tab + tab;
+            if (!"void".equals(returnType)) {
+                methodContent += "return (" + returnType + ")";
+            }
+            methodContent += "super.h.invoke(this,m" + methodsFlag + ",new Object[]{" + paramsContent + "});" + line
+                + tab + tab + "}" + line
+                + tab + tab + "catch (RuntimeException | Error var2) { throw var2; }" + line
+                + tab + tab + "catch (Throwable var3) { throw new UndeclaredThrowableException(var3); }" + line
                 + tab + "}" + line;
+            methodsFlag += 1;
         }
-        String content = packageContent + importContent + classFirstLineContent + fieldContent + constructorContent + methodContent + "}";
+        staticContent += tab + tab + "}" + line
+                + tab + tab + "catch (NoSuchMethodException var2) { throw new NoSuchMethodError(var2.getMessage()); }" + line
+                + tab + tab + "catch (ClassNotFoundException var3) { throw new NoClassDefFoundError(var3.getMessage()); }" + line
+                + tab + "}" + line;
+        String content = packageContent + importContent + classFirstLineContent + fieldContent + constructorContent + methodContent + staticContent + "}";
 
         File file = new File("c:\\com\\dilraba\\$ProxyFyx.java");
         try{
@@ -83,9 +112,8 @@ public class FyxProxy {
         }
         URLClassLoader urlClassLoader = new URLClassLoader(urls);
         Class c = urlClassLoader.loadClass("com.dilraba.$ProxyFyx");
-        Constructor constructor = c.getConstructor(clazz);
-        Object object = constructor.newInstance(o);
+        Constructor constructor = c.getConstructor(FyxInvocationHandler.class);
 
-        return object;
+        return constructor.newInstance(h);
     }
 }
