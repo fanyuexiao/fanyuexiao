@@ -7,10 +7,11 @@ import org.springframework.stereotype.Component;
 public class Fyx {
     /**
      * @Autowired 实际逻辑：调用无参构造方法，属性先按照类型找，再按照名字找，找到唯一的就直接注入，会覆盖byType，byName
+     * 自动注入，找不到时不是报错，而是不注入（注入结果为null）
      *
      * 做一个实验，证明@Autowired不是ByType
      * 注入一个I，有两个实现类X（ix），Y（iy），设置其注入模型为byType
-     * 不加@Autowired时,无法注入（byType有两个实现类）
+     * 不加@Autowired时,无法注入（byType有两个实现类），注入结果为null
      * 加@Autowired，注入成功，说明@Autowired覆盖了byType的逻辑
      */
     @Autowired
@@ -19,7 +20,7 @@ public class Fyx {
     /**
      * 做一个实验，证明@Autowired不是byName
      * 注入一个Z(iiz)，设置其注入模型为byName
-     * 不加@Autowired时,无法注入（byName名字都对不上）
+     * 不加@Autowired时,无法注入（byName名字都对不上），注入结果为null
      * 加@Autowired，注入成功，说明@Autowired覆盖了byName的逻辑
      */
     @Autowired
