@@ -14,8 +14,9 @@ public class Test {
          *
          * ps：循环依赖可以自己注入自己
          *
+         * 一二三级缓存在SingletonBeanRegistry（DefaultSingletonBeanRegistry）中
          * beanDefinitionMap在beanFactory中
-         * beanFactory默认使用DefaultListableBeanFactory
+         * beanFactory默认使用DefaultListableBeanFactory（它继承了DefaultSingletonBeanRegistry）
          * AnnotationConfigApplicationContext的父类GenericApplicationContext在构造函数中new了DefaultListableBeanFactory
          * public GenericApplicationContext() {
          * 	    this.beanFactory = new DefaultListableBeanFactory();
@@ -39,9 +40,9 @@ public class Test {
          * AutowiredAnnotationBeanPostProcessor-->@Autowired
          *
          *
-         * 一级缓存，单例池
-         * 三级缓存，防止重复创建
-         * 二级缓存，存了一个工厂，在循环依赖的情况下可以提前某些生命周期，例如：提前完成代理
+         * 一级缓存，单例池（earlySingletonObjects）
+         * 三级缓存，防止重复创建（earlySingletonObjects）
+         * 二级缓存，存了一个工厂（singletonFactories），在循环依赖的情况下可以提前某些生命周期，例如：提前完成代理
          * 正常步骤：注入属性-->生命周期回调方法（@PostConstruct-->InitializingBean-->代理），而循环依赖则情况下在注入属性时完成代理
          * Zyj（被代理）无循环依赖，则代理在
          * org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#initializeBean
