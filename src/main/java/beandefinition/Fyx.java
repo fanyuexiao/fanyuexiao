@@ -37,4 +37,8 @@ public class Fyx {
                 ", homeTown='" + homeTown + '\'' +
                 '}';
     }
+
+    public void close(){
+        System.out.println("close");
+    }
 }

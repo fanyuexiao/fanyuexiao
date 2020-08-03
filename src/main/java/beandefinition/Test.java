@@ -30,6 +30,8 @@ public class Test {
         System.out.println(ac.getBean("gy"));
         System.out.println(ac.getBean("fyx"));
 
+        ac.close();
+
         /**
          * BeanMetadataElement
          * 获取类的源文件
@@ -51,6 +53,9 @@ public class Test {
          * AbstractBeanDefinition
          * 实现BeanDefinition，继承BeanMetadataAttributeAccessor，可作为模板让其他beanDefinition继承
          * 有三个beanDefinition直接继承它（RootBeanDefinition、ChildBeanDefinition、GenericBeanDefinition）
+         * ps：一个鸡肋的小知识（INFER_METHOD）
+         * AbstractBeanDefinition中有一个常量INFER_METHOD,可以推断@preDestroy的默认方法（方法名为close或者shutdown）
+         *
          *
          * RootBeanDefinition
          * 在spring2.5时，通常作为一个模板被设置为Abstract（若设置beanClass也可以被实例化），设置一些共同的属性，减少冗余
@@ -60,7 +65,7 @@ public class Test {
          * 在spring2.5时，通常继承RootBeanDefinition
          * 它只能作为子bd，它的构造函数必须传parentName
          *
-         * GenericBeanDefinition
+         * GenericBeanDefinition-->xml
          * 可以替代所有ChildBeanDefinition和大部分RootBeanDefinition的作用，可以为子bd也可以为父bd
          * 唯一不能替代RootBeanDefinition在于：mergeBeanDefinition后要用RootBeanDefinition接收。
          * spring之前开发的时候，在mergeBeanDefinition的很多地方都传的RootBeanDefinition,懒得改过来了
