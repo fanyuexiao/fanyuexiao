@@ -1,5 +1,6 @@
 package mybatis;
 
+@FyxScan
 public interface FyxDao {
     @Select("select count(*) from table")
     void count(String s);

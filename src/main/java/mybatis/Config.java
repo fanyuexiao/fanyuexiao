@@ -1,5 +1,5 @@
 package mybatis;
 
-@FyxScan
+@EnableFyxScan
 public class Config {
 }

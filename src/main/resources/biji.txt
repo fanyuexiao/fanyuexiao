@@ -7,6 +7,8 @@ org.springframework.beans.factory.support.AbstractBeanFactory.transformedBeanNam
 3、对name的合法性验证
 
 beanDefinitionHolder的作用：其实没什么用，为了别名，@AliasFor，对beanDefinition做了个封装
+beanDefinition没有name，但是beanDefinitionMap是name-->beanDefinition
+这个name(alias)就是存在beanDefinitionHolder中的
 
 org.springframework.context.support.AbstractApplicationContext#finishBeanFactoryInitialization
 其中调用preInstantiateSingletons方法，先验证beanDefinition（是否单例，是否懒加载，等等）
