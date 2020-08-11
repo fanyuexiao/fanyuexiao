@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.http.converter.json.GsonBuilderUtils;
 
+import java.lang.annotation.Annotation;
 import java.util.Arrays;
 
 public class FyxBatisRegistrar implements ImportBeanDefinitionRegistrar {
@@ -24,13 +25,12 @@ public class FyxBatisRegistrar implements ImportBeanDefinitionRegistrar {
          */
         String[] beanDefinitionNames = registry.getBeanDefinitionNames();
         for (String beanDefinitionName : beanDefinitionNames) {
-            BeanDefinition beanDefinition = registry.getBeanDefinition(beanDefinitionName);
-            String beanClassName = beanDefinition.getBeanClassName();
+            AbstractBeanDefinition abstractBeanDefinition = (AbstractBeanDefinition) registry.getBeanDefinition(beanDefinitionName);
+            String beanClassName = abstractBeanDefinition.getBeanClassName();
             try {
-                Class<?> clazz = Class.forName(beanClassName);
-                FyxScan fyxScan = clazz.getAnnotation(FyxScan.class);
+                FyxScan fyxScan = Class.forName(beanClassName).getAnnotation(FyxScan.class);
                 if (fyxScan != null) {
-                    beanDefinition.setLazyInit(true);
+                    abstractBeanDefinition.setAbstract(true);
                     BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(FyxBatisFactoryBean.class);
                     AbstractBeanDefinition dynamicBeanDefinition = beanDefinitionBuilder.getBeanDefinition();
                     dynamicBeanDefinition.getPropertyValues().add("mapperInterface",beanClassName);
