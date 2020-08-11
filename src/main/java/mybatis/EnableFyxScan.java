@@ -8,4 +8,5 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 @Import(FyxBatisRegistrar.class)
 public @interface EnableFyxScan {
+    String value();
 }

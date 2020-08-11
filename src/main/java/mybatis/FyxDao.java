@@ -1,5 +1,7 @@
 package mybatis;
 
+import org.springframework.context.annotation.Lazy;
+
 @FyxScan
 public interface FyxDao {
     @Select("select count(*) from table")
