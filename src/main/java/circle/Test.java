@@ -36,7 +36,7 @@ public class Test {
          * 事实上，ac.register(config.class)调用的是beanFactory的setAllowCircularReferences()
          *
          *
-         * commonAnnotationBeanPostProcessor-->@Resource @PostConstructor
+         * commonAnnotationBeanPostProcessor-->@Resource @PostConstructor @Value
          * AutowiredAnnotationBeanPostProcessor-->@Autowired
          *
          *
