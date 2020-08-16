@@ -80,6 +80,12 @@ public class Test {
          *
          * AnnotatedGenericBeanDefinition-->ac.register()
          *
+         * 在判断是否是注解类的时候
+         * 先根据beanDefinition的类型判断
+         * -->org.springframework.context.annotation.ConfigurationClassUtils#checkConfigurationClassCandidate
+         * -->if(beanDef instanceof AnnotatedBeanDefinition)
+         * 再分全注解类（full）、半注解类（lite）、其他
+         *
       */
     }
 }
