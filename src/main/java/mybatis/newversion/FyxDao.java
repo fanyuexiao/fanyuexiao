@@ -1,6 +1,4 @@
-package mybatis;
-
-import org.springframework.context.annotation.Lazy;
+package mybatis.newversion;
 
 @FyxScan
 public interface FyxDao {

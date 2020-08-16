@@ -1,12 +1,9 @@
-package mybatis;
-
-import org.springframework.context.annotation.Import;
+package mybatis.newversion;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Import(FyxBatisRegistrar.class)
-public @interface EnableFyxScan {
+public @interface Select {
     String value();
 }

@@ -1,4 +1,4 @@
-package mybatis;
+package mybatis.oldversion;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -6,9 +6,9 @@ public class Test {
     public static void main(String[] args) {
         System.getProperties().put("sun.misc.ProxyGenerator.saveGeneratedFiles", "true");
         AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(Config.class);
-        FyxDao fyxDao = (FyxDao) ac.getBean("mybatis.FyxDao");
+        FyxDao fyxDao = (FyxDao) ac.getBean("mybatis.oldversion.FyxDao");
         fyxDao.count("a");
-        GyDao gyDao = (GyDao) ac.getBean("mybatis.GyDao");
+        GyDao gyDao = (GyDao) ac.getBean("mybatis.oldversion.GyDao");
         gyDao.update();
 
 
@@ -49,14 +49,14 @@ public class Test {
          * AutoConfiguredMapperScannerRegistrar实现了ImportBeanDefinitionRegistrar
          * 在registerBeanDefinitions中完成扫描，并将代理对象注册到spring中
          * 新版本mybatis改变为借助ConfigurationClassPostProcessor和BeanDefinitionRegistryPostProcessor实现
-         * mybatis在registerBeanDefinitions中向beanDefinitionMap中put了一个MapperScanConfigurer
-         * MapperScanConfigurer实现了BeanDefinitionRegistryPostProcessor
+         * mybatis在registerBeanDefinitions中向beanDefinitionMap中put了一个MapperScannerConfigurer
+         * MapperScannerConfigurer实现了BeanDefinitionRegistryPostProcessor
          * 在后续的postProcessBeanDefinitionRegistry中完成扫描，注入代理对象
          *
          * 作用：
          * 提供了一个新的mybatis入口
          * 老版，mybatis的唯一入口是@MapperScan或者<mapper-scan></mapper-scan>
-         * 新版本可以直接提供一个MapperScanConfigurer来完成扫描
+         * 新版本可以直接提供一个MapperScannerConfigurer来完成扫描
          */
     }
 }

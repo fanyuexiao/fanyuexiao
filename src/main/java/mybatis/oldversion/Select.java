@@ -1,4 +1,4 @@
-package mybatis;
+package mybatis.oldversion;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

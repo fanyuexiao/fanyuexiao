@@ -1,4 +1,4 @@
-package mybatis;
+package mybatis.oldversion;
 
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
