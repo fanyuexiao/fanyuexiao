@@ -1,7 +1,6 @@
 package mybatis;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.core.type.filter.AnnotationTypeFilter;
 
 public class Test {
     public static void main(String[] args) {
@@ -46,10 +45,18 @@ public class Test {
          * 注意：
          * 老版本mybatis就是借助ConfigurationClassPostProcessor实现的
          * ConfigurationClassPostProcessor先实例化实现了ImportBeanDefinitionRegistrar的类，然后加入map（importBeanDefinitionRegistrars）中,最后执行registerBeanDefinitions
-         * 而mybatis在registerBeanDefinitions中完成扫描，并将代理对象注册到spring中
-         * 新版本mybatis改变为借助BeanDefinitionRegistryPostProcessor实现
-         * 在postProcessBeanDefinitionRegistry中完成扫描，注入代理对象
-         * 也就是说新版mybatis将执行时机提前了
+         * mybatis的@MapperScan有一个@Import（AutoConfiguredMapperScannerRegistrar）
+         * AutoConfiguredMapperScannerRegistrar实现了ImportBeanDefinitionRegistrar
+         * 在registerBeanDefinitions中完成扫描，并将代理对象注册到spring中
+         * 新版本mybatis改变为借助ConfigurationClassPostProcessor和BeanDefinitionRegistryPostProcessor实现
+         * mybatis在registerBeanDefinitions中向beanDefinitionMap中put了一个MapperScanConfigurer
+         * MapperScanConfigurer实现了BeanDefinitionRegistryPostProcessor
+         * 在后续的postProcessBeanDefinitionRegistry中完成扫描，注入代理对象
+         *
+         * 作用：
+         * 提供了一个新的mybatis入口
+         * 老版，mybatis的唯一入口是@MapperScan或者<mapper-scan></mapper-scan>
+         * 新版本可以直接提供一个MapperScanConfigurer来完成扫描
          */
     }
 }

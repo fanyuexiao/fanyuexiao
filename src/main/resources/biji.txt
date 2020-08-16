@@ -71,4 +71,10 @@ lifecycle callback
 Lifecycle、SmartLifecycle
 
 接口（多个实现）注入
-xml手动装配、@Autowired属性名、@Qualifer
+xml手动装配、@Autowired属性名、@Qualifier
+
+beanFactory的初始化
+使用AnnotationConfigApplicationContext时，父类的构造方法会初始化beanFactory（DefaultListableBeanFactory）
+而使用ClassPathXmlApplicationContext时，它的构造方法（包括父类）没有初始化beanFactory（DefaultListableBeanFactory）
+而是在refresh()中初始化的（invokeBeanFactoryPostProcessors()之前的几个方法）
+事实上，这几个方法对AnnotationConfigApplicationContext来说没什么用
