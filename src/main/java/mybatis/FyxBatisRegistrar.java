@@ -1,16 +1,13 @@
 package mybatis;
 
-import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.type.AnnotationMetadata;
-import org.springframework.http.converter.json.GsonBuilderUtils;
+import org.springframework.core.type.filter.AnnotationTypeFilter;
 
-import java.lang.annotation.Annotation;
-import java.util.Arrays;
+import java.util.Objects;
 
 public class FyxBatisRegistrar implements ImportBeanDefinitionRegistrar {
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
@@ -23,6 +20,12 @@ public class FyxBatisRegistrar implements ImportBeanDefinitionRegistrar {
          *      <poperty name="mapperInterface" value="mybatis.FyxDao"></poperty>
          * </bean>
          */
+        String scanPackage = (String) Objects.requireNonNull(importingClassMetadata.getAnnotationAttributes(EnableFyxScan.class.getName())).get("value");
+        if (scanPackage != null) {
+            FyxClassPathBeanDefinitionScanner scanner = new FyxClassPathBeanDefinitionScanner(registry);
+            scanner.addIncludeFilter(new AnnotationTypeFilter(FyxScan.class));
+            scanner.scan(scanPackage);
+        }
         String[] beanDefinitionNames = registry.getBeanDefinitionNames();
         for (String beanDefinitionName : beanDefinitionNames) {
             AbstractBeanDefinition abstractBeanDefinition = (AbstractBeanDefinition) registry.getBeanDefinition(beanDefinitionName);

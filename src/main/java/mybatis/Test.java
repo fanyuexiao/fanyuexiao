@@ -6,15 +6,7 @@ import org.springframework.core.type.filter.AnnotationTypeFilter;
 public class Test {
     public static void main(String[] args) {
         System.getProperties().put("sun.misc.ProxyGenerator.saveGeneratedFiles", "true");
-        AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext();
-        EnableFyxScan enableFyxScan = Config.class.getAnnotation(EnableFyxScan.class);
-        if (enableFyxScan != null) {
-            FyxClassPathBeanDefinitionScanner scanner = new FyxClassPathBeanDefinitionScanner(ac);
-            scanner.addIncludeFilter(new AnnotationTypeFilter(FyxScan.class));
-            scanner.scan(enableFyxScan.value());
-        }
-        ac.register(Config.class);
-        ac.refresh();
+        AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(Config.class);
         FyxDao fyxDao = (FyxDao) ac.getBean("mybatis.FyxDao");
         fyxDao.count("a");
         GyDao gyDao = (GyDao) ac.getBean("mybatis.GyDao");
@@ -57,6 +49,7 @@ public class Test {
          * 而mybatis在registerBeanDefinitions中完成扫描，并将代理对象注册到spring中
          * 新版本mybatis改变为借助BeanDefinitionRegistryPostProcessor实现
          * 在postProcessBeanDefinitionRegistry中完成扫描，注入代理对象
+         * 也就是说新版mybatis将执行时机提前了
          */
     }
 }
