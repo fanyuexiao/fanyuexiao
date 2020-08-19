@@ -41,6 +41,11 @@ public class Test {
      *    实际上就是这个类完成了自定义类的扫描与解析，包括手动传给spring的类（Config.class）
      *    也就是说，这个类的postProcessBeanDefinitionRegistry执行完之后，@Component的，xml配置的都进来了
      *    接下来的BeanDefinitionRegistryPostProcessor就是混在一起执行了
+     *    注意：此时会执行ConfigurationClassPostProcessor的postProcessBeanDefinitionRegistry
+     *         完成了对@Configuration的代理，即替换beanDefinition
+     *         Class<?> configClass = beanDef.resolveBeanClass(this.beanClassLoader);-->原始类
+     *         Class<?> enhancedClass = enhancer.enhance(configClass, this.beanClassLoader);-->代理类
+     *         beanDef.setBeanClass(enhancedClass);-->替换
      * 3、执行被spring(ConfigurationClassPostProcessor)扫描出来的实现了BeanDefinitionRegistryPostProcessor、PriorityOrdered的类的postProcessBeanDefinitionRegistry
      * 4、执行被spring(ConfigurationClassPostProcessor)扫描出来的实现了BeanDefinitionRegistryPostProcessor、Ordered的类的BeanDefinitionRegistryPostProcessor的postProcessBeanDefinitionRegistry
      * 5、执行被spring(ConfigurationClassPostProcessor)扫描出来的实现了BeanDefinitionRegistryPostProcessor的类的postProcessBeanDefinitionRegistry
