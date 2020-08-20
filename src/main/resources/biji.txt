@@ -5,6 +5,9 @@ org.springframework.beans.factory.support.AbstractBeanFactory.transformedBeanNam
    因此需要将&从name中移除，才能获取到bean
 2、别名问题，@AliasFor
 3、对name的合法性验证
+beanName与beanDefinition
+在beanDefinitionMap中，存着beanName-->beanDefinitionMap,为什么beanName不存在beanDefinition中呢？
+beanDefinition中存着class的相关信息，而beanName不属于class的信息，它需要通过生成策略(transformedBeanName)生成出来
 
 beanDefinitionHolder的作用：其实没什么用，为了别名，@AliasFor，对beanDefinition做了个封装
 beanDefinition没有name，但是beanDefinitionMap是name-->beanDefinition

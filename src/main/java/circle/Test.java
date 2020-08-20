@@ -13,6 +13,7 @@ public class Test {
          * String[] beanDefinitionNames = ac.getBeanDefinitionNames();
          *
          * ps：循环依赖可以自己注入自己
+         *     循环依赖必须是单例且利用set方法注入（包括set方法的变体：Field.set）
          *
          * 一二三级缓存在SingletonBeanRegistry（DefaultSingletonBeanRegistry）中
          * beanDefinitionMap在beanFactory中
