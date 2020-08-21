@@ -11,6 +11,7 @@ public class Test {
         System.out.println();
         /**
          * String[] beanDefinitionNames = ac.getBeanDefinitionNames();
+         * 同理，bean存在单例池中，也有一个存名字的集合(registeredSingletons)
          *
          * ps：循环依赖可以自己注入自己
          *     循环依赖必须是单例且利用set方法注入（包括set方法的变体：Field.set）

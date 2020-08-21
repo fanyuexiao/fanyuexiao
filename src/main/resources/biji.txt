@@ -81,3 +81,7 @@ beanFactory的初始化
 而使用ClassPathXmlApplicationContext时，它的构造方法（包括父类）没有初始化beanFactory（DefaultListableBeanFactory）
 而是在refresh()中初始化的（invokeBeanFactoryPostProcessors()之前的几个方法）
 事实上，这几个方法对AnnotationConfigApplicationContext来说没什么用
+
+spring策略模式：
+1、ConfigurationClassPostProcessor执行BeanDefinitionRegistryPostProcessor的時候
+2、@Autowired、@Resource的beanPostProcessor
