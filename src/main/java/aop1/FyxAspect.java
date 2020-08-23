@@ -20,7 +20,7 @@ public class FyxAspect {
      * aop是目标，spring aop和aspectj均是对aop的实现
      * aspectj实现的比较好，spring也引用了aspectj
      *
-     * Aspect：切点、连接点、通知所在的类
+     * Aspect：切点、连接点、通知所在的类（横切性问题抽象出来的那个类）
      * Pointcut：切点，连接点的集合
      * joinPoint：连接点，具体要被增强的方法，@Pointcut的括号中的集合
      * advice：通知，对切点在某时刻采取的行动（@Before...）
