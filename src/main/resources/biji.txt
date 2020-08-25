@@ -85,3 +85,6 @@ beanFactory的初始化
 spring策略模式：
 1、ConfigurationClassPostProcessor执行BeanDefinitionRegistryPostProcessor的時候
 2、@Autowired、@Resource的beanPostProcessor
+
+beanPostProcessor可以干预实例化、初始化
+beanFactoryPostProcessor只能干预初始化
