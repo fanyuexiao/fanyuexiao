@@ -30,6 +30,15 @@ spring在createBean中9次执行后置处理器（后置处理器可以插手bea
 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#resolveBeforeInstantiation
 	org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#applyBeanPostProcessorsBeforeInstantiation
 		org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation
+	/*
+	spring的内部实现类是：AbstractAutoProxyCreator
+    beforeInstantiationResolved：记录beanPostProcessor过程是否已经开始
+    hasInstantiationAwareBeanPostProcessors：在org.springframework.context.support.AbstractApplicationContext.registerBeanPostProcessors时注册
+    getCacheKey：获得class，处理factoryBean（判断是否需要加上&）
+    advisedBeans：不需要被代理的类（切面类等），或者已经被代理的类
+                  这里也解释了在循环依赖aop提前时，后续不会再被aop
+                  提前代理时，被代理的bean被记录进advisedBeans，后续走到代理的生命周期时，会判断advisedBeans，因此不会再次代理
+	*/
 	org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#applyBeanPostProcessorsAfterInitialization
 		org.springframework.beans.factory.config.BeanPostProcessor#postProcessAfterInitialization
 2、推断构造函数（由后置处理器决定访问哪些构造方法）
