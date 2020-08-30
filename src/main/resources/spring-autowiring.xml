@@ -6,7 +6,6 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
-    <!--==========================关于spring自动注入的实验配置=====================================================================-->
     <!--
     spring自动注入的方式
         constructor setter

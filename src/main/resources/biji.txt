@@ -30,20 +30,40 @@ spring在createBean中9次执行后置处理器（后置处理器可以插手bea
 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#resolveBeforeInstantiation
 	org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#applyBeanPostProcessorsBeforeInstantiation
 		org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation
-	/*
-	spring的内部实现类是：AnnotationAwareAspectJAutoProxyCreator（继承AbstractAutoProxyCreator）
-    beforeInstantiationResolved：记录beanPostProcessor过程是否已经开始
-    hasInstantiationAwareBeanPostProcessors：在org.springframework.context.support.AbstractApplicationContext.registerBeanPostProcessors时注册
-    getCacheKey：获得class，处理factoryBean（判断是否需要加上&）
-    advisedBeans：不需要被代理的类（切面类等，advisedBeans.put(class，false)），或者已经被代理的类（被代理了就会在advisedBeans记录下来,advisedBeans.put(class，true)）
-                  这里也解释了在循环依赖aop提前时，后续不会再被aop
-                  提前代理时，被代理的bean被记录进advisedBeans，后续走到代理的生命周期时，会判断advisedBeans，因此不会再次代理
-	*/
+        /*
+        spring的内部实现类是：AnnotationAwareAspectJAutoProxyCreator（继承AbstractAutoProxyCreator）
+        beforeInstantiationResolved：记录beanPostProcessor过程是否已经开始
+        hasInstantiationAwareBeanPostProcessors：在org.springframework.context.support.AbstractApplicationContext.registerBeanPostProcessors时注册
+        getCacheKey：获得class，处理factoryBean（判断是否需要加上&）
+        advisedBeans：不需要被代理的类（切面类等，advisedBeans.put(class，false)），或者已经被代理的类（被代理了就会在advisedBeans记录下来,advisedBeans.put(class，true)）
+                      这里也解释了在循环依赖aop提前时，后续不会再被aop
+                      提前代理时，被代理的bean被记录进advisedBeans，后续走到代理的生命周期时，会判断advisedBeans，因此不会再次代理
+        */
 	org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#applyBeanPostProcessorsAfterInitialization
 		org.springframework.beans.factory.config.BeanPostProcessor#postProcessAfterInitialization
 2、推断构造函数（由后置处理器决定访问哪些构造方法）
-org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#determineConstructorsFromBeanPostProcessors
-	org.springframework.beans.factory.config.SmartInstantiationAwareBeanPostProcessor#determineCandidateConstructors
+org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance
+    /**
+    args:ac.getBean(beanName/beanClass,args),作用是作为实例化bean的填充属性。
+         例如，Fyx有一个Gy属性，可以将gy=new Gy()当作args
+    resolved:表示创建对象的构造方法是否被解析过（快捷方式，主要用于原型对象的创建，不用重复推断构造方法）
+    autowireNecessary:表示是否使用有参构造器
+    resolvedConstructorOrFactoryMethod:表示创建对象的方法
+    */
+    org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#determineConstructorsFromBeanPostProcessors
+	    org.springframework.beans.factory.config.SmartInstantiationAwareBeanPostProcessor#determineCandidateConstructors
+	        org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor#determineCandidateConstructors
+	        /**
+	        lookupMethodsChecked:表示已经经过了lookup检查的bean的集合，不代表是不是lookup，只是检查过了
+	        candidateConstructorsCache:已经推断出来构造方法的类的map，beanClass->constructor，不用重复推断，提高效率
+	                                   这个场景非常特殊，单例或者多例都不会进到这个地方来
+	                                   这个场景就是：
+	                                   @Bean的方法中调用另一个@Bean的方法，而配置类又没有加@Configuration，导致创建两次，这个缓存就有用了
+	        autowiredAnnotationTypes:@Autowired和@Value,org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.findAutowiredAnnotation
+	        requiredConstructor:加了@Autowired或者@Value的构造方法
+	        defaultConstructor:默认构造方法
+	        primaryConstructor:kotlin相关的，对于java场景下没用，基本为空
+	        */
 3、合并BeanDefinition
 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#applyMergedBeanDefinitionPostProcessors
 	org.springframework.beans.factory.support.MergedBeanDefinitionPostProcessor#postProcessMergedBeanDefinition
@@ -61,6 +81,7 @@ org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#ini
 		org.springframework.beans.factory.config.BeanPostProcessor#postProcessBeforeInitialization（执行@PostConstruct、ApplicationContextAware）
 	org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#applyBeanPostProcessorsAfterInitialization（完成代理）
 		org.springframework.beans.factory.config.BeanPostProcessor#postProcessAfterInitialization
+		    org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator#postProcessAfterInitialization
 	注意：
 	org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#invokeInitMethods（执行InitializingBean）
 9、销毁(@PreDestroy,DisposableBean)
