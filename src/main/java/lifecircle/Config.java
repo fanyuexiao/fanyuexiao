@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ImportResource;
 
 @Configuration
 //@ComponentScan("lifecircle")
-@ImportResource("classpath:spring.xml")
+@ImportResource("classpath:spring-lifecycle.xml")
 public class Config {
     @Bean
     public BeanBean beanBean(){

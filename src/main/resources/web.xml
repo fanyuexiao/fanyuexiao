@@ -16,12 +16,12 @@
     <display-name>xxxxx</display-name>
     <!--
         web项目加载web.xml首先读取这两个结点，加载spring容器及创建spring监听器；
-        spring.xml 是spring全局配置文件，用来控制spring特性的
+        spring-autowiring.xml 是spring全局配置文件，用来控制spring特性的
         ContextLoaderListener的作用就是启动Web容器时，自动装配ApplicationContext的配置信息。
     -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring.xml</param-value>
+        <param-value>classpath:spring-autowiring.xml</param-value>
     </context-param>
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

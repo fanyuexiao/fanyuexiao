@@ -31,11 +31,11 @@ org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#res
 	org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#applyBeanPostProcessorsBeforeInstantiation
 		org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation
 	/*
-	spring的内部实现类是：AbstractAutoProxyCreator
+	spring的内部实现类是：AnnotationAwareAspectJAutoProxyCreator（继承AbstractAutoProxyCreator）
     beforeInstantiationResolved：记录beanPostProcessor过程是否已经开始
     hasInstantiationAwareBeanPostProcessors：在org.springframework.context.support.AbstractApplicationContext.registerBeanPostProcessors时注册
     getCacheKey：获得class，处理factoryBean（判断是否需要加上&）
-    advisedBeans：不需要被代理的类（切面类等），或者已经被代理的类
+    advisedBeans：不需要被代理的类（切面类等，advisedBeans.put(class，false)），或者已经被代理的类（被代理了就会在advisedBeans记录下来,advisedBeans.put(class，true)）
                   这里也解释了在循环依赖aop提前时，后续不会再被aop
                   提前代理时，被代理的bean被记录进advisedBeans，后续走到代理的生命周期时，会判断advisedBeans，因此不会再次代理
 	*/

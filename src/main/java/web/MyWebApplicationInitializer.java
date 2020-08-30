@@ -13,7 +13,7 @@ public class MyWebApplicationInitializer implements WebApplicationInitializer {
         /**
          * <context-param>
          *     <param-name>contextConfigLocation</param-name>
-         *     <param-value>classpath:spring.xml</param-value>
+         *     <param-value>classpath:spring-autowiring.xml</param-value>
          * </context-param>
          * <listener>
          *     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

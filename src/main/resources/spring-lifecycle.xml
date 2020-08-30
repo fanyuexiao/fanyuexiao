@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--factory method 静态工厂-->
+    <bean id="staticFactory" class="lifecircle.StaticFactory" factory-method="getFactoryMethodBean"></bean>
+
+    <!--factory method 实例工厂-->
+    <bean id="instanceFactory" class="lifecircle.InstanceFactory"></bean>
+    <bean id="instanceFactory1" factory-bean="instanceFactory" factory-method="getFactoryMethodBean"></bean>
+</beans>

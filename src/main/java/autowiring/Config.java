@@ -6,6 +6,6 @@ import org.springframework.context.annotation.ImportResource;
 
 @Configuration
 @ComponentScan("autowiring")
-//@ImportResource("classpath:spring.xml")
+@ImportResource("classpath:spring-autowiring.xml")
 public class Config {
 }

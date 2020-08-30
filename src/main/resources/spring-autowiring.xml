@@ -33,12 +33,4 @@
     <bean id="zyj" class="autowiring.Zyj" autowire="byType"></bean>
 
     <!--也可以在头部加上：default-autowire="byType"-->
-
-    <!--===========================关于factory method是否具有生命周期的配置============================================-->
-    <!--factory method 静态工厂-->
-    <bean id="staticFactory" class="lifecircle.StaticFactory" factory-method="getFactoryMethodBean"></bean>
-
-    <!--factory method 实例工厂-->
-    <bean id="instanceFactory" class="lifecircle.InstanceFactory"></bean>
-    <bean id="instanceFactory1" factory-bean="instanceFactory" factory-method="getFactoryMethodBean"></bean>
 </beans>
