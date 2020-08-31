@@ -11,6 +11,7 @@ public class Test {
          * Constructor<?>[] ctors = determineConstructorsFromBeanPostProcessors(beanClass, beanName);
          * 自动注入（AUTOWIRE_CONSTRUCTOR）时
          *      spring会按照自动注入模型推断出构造函数，ctors=你所提供的全部构造函数,然后选择参数最长的那个
+         *      注意：这里的参数最多指的参数是spring容器当中的bean，String s这种参数就不属于spring容器
          * 手动注入时
          *      除非你指定构造函数，否则spring是推断不出来的，ctors=null，然后直接调用默认无参构造函数
          *      constructorToUse = clazz.getDeclaredConstructor();

@@ -18,4 +18,8 @@ public class Fyx {
 //    public Fyx(Gy gy,Gy gy1){
 //        System.out.println("bbbb");
 //    }
+
+//    public Fyx(Gy gy,String s){
+//        System.out.println("ccccc");
+//    }
 }
