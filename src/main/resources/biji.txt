@@ -48,7 +48,7 @@ org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.cre
          例如，Fyx有一个Gy属性，可以将gy=new Gy()当作args
     resolved:表示创建对象的构造方法是否被解析过（快捷方式，主要用于原型对象的创建，不用重复推断构造方法）
     autowireNecessary:表示是否使用有参构造器
-    resolvedConstructorOrFactoryMethod:表示创建对象的方法
+    resolvedConstructorOrFactoryMethod:表示创建对象的方法，找到之后被存起来
     */
     org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#determineConstructorsFromBeanPostProcessors
 	    org.springframework.beans.factory.config.SmartInstantiationAwareBeanPostProcessor#determineCandidateConstructors
@@ -63,6 +63,14 @@ org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.cre
 	        requiredConstructor:加了@Autowired或者@Value的构造方法
 	        defaultConstructor:默认构造方法
 	        primaryConstructor:kotlin相关的，对于java场景下没用，基本为空
+	        explicitArgs:手动传的参数，getBean的时候传参数，创建bean的时候很少传参数
+	        resolvePreparedArguments:解析参数，<property name="markerInterface" value="org.ezca.autocount.dao.CertRegionMapper"/>
+	                                 例如，markerInterface要把org.ezca.autocount.dao.CertRegionMapper从字符串解析成类
+            chosenCtors:第一次推断出来的构造函数
+                        当第一次提供多个构造方法，加了多个@Autowired(false)时，会推断出多个构造方法，此时，相当于自动注入
+                        boolean autowiring = (chosenCtors != null || mbd.getResolvedAutowireMode() == AutowireCapableBeanFactory.AUTOWIRE_CONSTRUCTOR);
+            nonPublicAccessAllowed:是否允许访问非公共的方法
+            hasConstructorArgumentValues:beanDefinition里面存的参数，xml的<constructor-ars>，或者dynamicBeanDefinition.getConstructorArgumentValues().addArgumentValues();
 	        */
 3、合并BeanDefinition
 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#applyMergedBeanDefinitionPostProcessors
