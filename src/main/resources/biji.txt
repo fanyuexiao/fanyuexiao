@@ -71,6 +71,8 @@ org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.cre
                         boolean autowiring = (chosenCtors != null || mbd.getResolvedAutowireMode() == AutowireCapableBeanFactory.AUTOWIRE_CONSTRUCTOR);
             nonPublicAccessAllowed:是否允许访问非公共的方法
             hasConstructorArgumentValues:beanDefinition里面存的参数，xml的<constructor-ars>，或者dynamicBeanDefinition.getConstructorArgumentValues().addArgumentValues();
+	        minNrOfArgs:最少的构造函数参数个数，例如getBean的args，beanDefinition存的参数
+	        lenientConstructorResolution:是否采用宽松模式，即不能有模糊不清的构造函数，有的话就报错
 	        */
 3、合并BeanDefinition
 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#applyMergedBeanDefinitionPostProcessors
