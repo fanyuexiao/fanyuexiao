@@ -73,6 +73,8 @@ org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.cre
             hasConstructorArgumentValues:beanDefinition里面存的参数，xml的<constructor-ars>，或者dynamicBeanDefinition.getConstructorArgumentValues().addArgumentValues();
 	        minNrOfArgs:最少的构造函数参数个数，例如getBean的args，beanDefinition存的参数
 	        lenientConstructorResolution:是否采用宽松模式，即不能有模糊不清的构造函数，有的话就报错
+	        resolvedValues:beanDefinition里面存的参数，赋值给了这个变量，为什么不直接用要赋值，不知道
+	        supplier:类似于factory method
 	        */
 3、合并BeanDefinition
 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#applyMergedBeanDefinitionPostProcessors
