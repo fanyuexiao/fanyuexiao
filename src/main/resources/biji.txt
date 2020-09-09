@@ -76,9 +76,22 @@ org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.cre
 	        resolvedValues:beanDefinition里面存的参数，赋值给了这个变量，为什么不直接用要赋值，不知道
 	        supplier:类似于factory method
 	        */
-3、合并BeanDefinition
+3、应用合并后的BeanDefinition
+即把bd中需要注入的属性拿出来存到injectionMetadataCache中，在后续populateBean的时候注入
+实时上，在applyMergedBeanDefinitionPostProcessors和populateBean中会调用同一个方法：findAutowiringMetadata
+合并beanDefinition是在org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors
+                     org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors
+                     org.springframework.beans.factory.ListableBeanFactory.getBeanNamesForType中做的
+实例化bean需要通过beanDefinition
+首先是程序员注册的BeanDefinitionRegistryPostProcessor和spring开天辟地的类，在获取名字的时候合并
+然后是扫描出来的bean，再次调用getBeanNamesForType进行合并，合并完成后存入mergedBeanDefinitions，后续实例化bean的时候直接从中取
 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#applyMergedBeanDefinitionPostProcessors
 	org.springframework.beans.factory.support.MergedBeanDefinitionPostProcessor#postProcessMergedBeanDefinition
+	    org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessMergedBeanDefinition
+	        org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessMergedBeanDefinition
+	        /**
+	        injectedElements:需要注入的元素（@Autowired，@Inject，@Resource）
+	        */
 4、解决循环引用，加入二级缓存时用的
 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#getEarlyBeanReference
 	org.springframework.beans.factory.config.SmartInstantiationAwareBeanPostProcessor#getEarlyBeanReference

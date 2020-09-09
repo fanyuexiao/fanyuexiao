@@ -86,6 +86,12 @@ public class Test {
          * -->if(beanDef instanceof AnnotatedBeanDefinition)
          * 再分全注解类（full）、半注解类（lite）、其他
          *
+         * MergedBeanDefinition
+         * spring要实例化一个对象的时候，会合并beanDefinition
+         * 理论上来说spring应该开发一个MergedBeanDefinition，但是并没有，而是直接借用了RootBeanDefinition
+         * 也就是说，所有的beanDefinition被扫描出来后都要被合并成为RootBeanDefinition
+         * spring的合并方法是把子BeanDefinition的属性copy到RootBeanDefinition中
+         *
       */
     }
 }
