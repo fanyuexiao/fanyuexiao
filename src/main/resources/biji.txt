@@ -85,6 +85,13 @@ org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.cre
 实例化bean需要通过beanDefinition
 首先是程序员注册的BeanDefinitionRegistryPostProcessor和spring开天辟地的类，在获取名字的时候合并
 然后是扫描出来的bean，再次调用getBeanNamesForType进行合并，合并完成后存入mergedBeanDefinitions，后续实例化bean的时候直接从中取
+    org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons
+        org.springframework.beans.factory.support.AbstractBeanFactory.getBean(java.lang.String)
+            org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean
+                org.springframework.beans.factory.support.AbstractBeanFactory.markBeanAsCreated
+                    org.springframework.beans.factory.support.AbstractBeanFactory.clearMergedBeanDefinition
+                org.springframework.beans.factory.support.AbstractBeanFactory.getMergedLocalBeanDefinition
+注意：扫描出来的bean合并beanDefinition之后，在getBean的时候会清除MergedBeanDefinition再次合并，因为beanPostProcessor可能会修改beanDefinition，因此需要重新合并
 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#applyMergedBeanDefinitionPostProcessors
 	org.springframework.beans.factory.support.MergedBeanDefinitionPostProcessor#postProcessMergedBeanDefinition
 	    org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessMergedBeanDefinition
