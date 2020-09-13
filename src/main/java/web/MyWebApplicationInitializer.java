@@ -9,6 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
 public class MyWebApplicationInitializer implements WebApplicationInitializer {
+    /**
+     * ServletContext：web上下文对象，web.xml能做的，ServletContext都能做
+     */
     public void onStartup(ServletContext servletContext) throws ServletException {
         /**
          * <context-param>
