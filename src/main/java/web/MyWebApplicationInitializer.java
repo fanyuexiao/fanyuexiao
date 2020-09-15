@@ -39,6 +39,7 @@ public class MyWebApplicationInitializer implements WebApplicationInitializer {
          */
         DispatcherServlet dispatcherServlet = new DispatcherServlet(ac);
         ServletRegistration.Dynamic springMVC = servletContext.addServlet("SpringMVC", dispatcherServlet);
+        //如果你非要指定xml也可以:springMVC.setInitParameter("contextConfigLocation","classpath:springMVC.xml");
         springMVC.setLoadOnStartup(1);
         /**
          * <servlet-mapping>
