@@ -4,9 +4,7 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 import java.util.List;
 
@@ -14,6 +12,11 @@ import java.util.List;
 @ComponentScan("web")
 @EnableWebMvc
 public class Config implements WebMvcConfigurer {
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/","classpath:/");
+    }
+
     /**
      * <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
      *         <property name="prefix" value="/WEB-INF/jsp" />

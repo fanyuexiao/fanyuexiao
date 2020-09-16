@@ -38,7 +38,7 @@ public class SpringApplication {
         DispatcherServlet dispatcherServlet = new DispatcherServlet(ac);
         Wrapper springMVC = tomcat.addServlet("/", "springMVC", dispatcherServlet);
         springMVC.setLoadOnStartup(1);
-        springMVC.addMapping("/");
+        springMVC.addMapping("*.do");
         try {
             tomcat.start();
             tomcat.getServer().await();

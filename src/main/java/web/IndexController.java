@@ -9,14 +9,14 @@ import java.util.Map;
 
 @Controller
 public class IndexController {
-    @RequestMapping("/index")
+    @RequestMapping("/index.do")
     @ResponseBody
     public String index(){
         System.out.println("index");
         return "index";
     }
 
-    @RequestMapping("/map")
+    @RequestMapping("/map.do")
     @ResponseBody
     public Map<String,String> map(){
         System.out.println("map");
@@ -25,7 +25,7 @@ public class IndexController {
         return map;
     }
 
-    @RequestMapping("/static")
+    @RequestMapping("/static.do")
     public String page(){
         System.out.println("static");
         return "static";
