@@ -97,7 +97,17 @@ org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#app
 	    org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessMergedBeanDefinition
 	        org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessMergedBeanDefinition
 	        /**
+            主要实现类有两个：CommonAnnotationBeanPostProcessor（@Resource）和AutowiredAnnotationBeanPostProcessor（@Autowired、@Value）
+            org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.postProcessMergedBeanDefinition
+            1、调用父类的postProcessMergedBeanDefinition
+                org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor.findLifecycleMetadata-->查找生命周期回调方法
+            2、找到需要被注入的属性元信息（@Resource）
+                org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.findResourceMetadata
+            org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor
+            1、找到需要被注入的属性元信息（@Autowired、@Value）
+                org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.findAutowiringMetadata
 	        injectedElements:需要注入的元素（@Autowired，@Inject，@Resource）
+	        targetClass:需要被注入的类
 	        */
 4、解决循环引用，加入二级缓存时用的
 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#getEarlyBeanReference
