@@ -130,6 +130,13 @@ org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#get
 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#populateBean
 	org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#postProcessAfterInstantiation（是否注入属性扩展点）
 	org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#postProcessPropertyValues（如果continueWithPropertyPopulation为true，注入属性）
+	/**
+	PropertyValues pvs = (mbd.hasPropertyValues() ? mbd.getPropertyValues() : null);
+	pvs:<property/>或者dynamicBeanDefinition.getPropertyValues()提供的属性
+	if (resolvedAutowireMode == AUTOWIRE_BY_NAME || resolvedAutowireMode == AUTOWIRE_BY_TYPE) {
+        MutablePropertyValues newPvs = new MutablePropertyValues(pvs);
+    newPvs:如果是自动注入，除了程序员提供的，spring还会自己推断，手动注入则不会有
+	*/
 7、8、初始化方法（生命周期回调方法， InitializingBean @PostConstructor）
 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#initializeBean
     org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeAwareMethods（执行部分Aware，BeanNameAware、BeanClassLoaderAware、BeanFactoryAware）
