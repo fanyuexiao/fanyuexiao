@@ -98,20 +98,34 @@ org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#app
 	        org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessMergedBeanDefinition
 	        /**
             主要实现类有两个：CommonAnnotationBeanPostProcessor（@Resource）和AutowiredAnnotationBeanPostProcessor（@Autowired、@Value）
+                             和一个不重要的
             org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.postProcessMergedBeanDefinition
             1、调用父类的postProcessMergedBeanDefinition
                 org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor.findLifecycleMetadata-->查找生命周期回调方法
             2、找到需要被注入的属性元信息（@Resource）
                 org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.findResourceMetadata
+            3、injectedElements赋值给checkedElements
+                org.springframework.beans.factory.annotation.InjectionMetadata.checkConfigMembers
+                检查一下externallyManagedConfigMembers有没有存当前的InjectedElements，没有就加进去（即检查过了），
+                然后把injectedElements赋值给checkedElements，后续populateBean的时候，使用的是checkedElements
+                也就是说njectedElements和checkedElements其实是一样的，不知道为什么有这么一步
             org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor
             1、找到需要被注入的属性元信息（@Autowired、@Value）
                 org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.findAutowiringMetadata
-	        injectedElements:需要注入的元素（@Autowired，@Inject，@Resource）
+	        2、injectedElements赋值给checkedElements
+	            org.springframework.beans.factory.annotation.InjectionMetadata.checkConfigMembers
+	        org.springframework.context.support.ApplicationListenerDetector.postProcessMergedBeanDefinition
+	            this.singletonNames.put(beanName, beanDefinition.isSingleton());
+	            仅仅是标记了一下单例对象的名字，所以说不重要
+	        injectionMetadataCache：beanName-->InjectionMetadata
+	        InjectionMetadata:targetClass、injectedElements、checkedElements
+	        injectedElements、checkedElements:需要注入的元素（@Autowired，@Inject，@Resource）,injectedElement的集合
 	        targetClass:需要被注入的类
 	        */
 4、解决循环引用，加入二级缓存时用的
 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#getEarlyBeanReference
 	org.springframework.beans.factory.config.SmartInstantiationAwareBeanPostProcessor#getEarlyBeanReference
+	    org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.getEarlyBeanReference
 5、6、注入属性时
 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#populateBean
 	org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#postProcessAfterInstantiation（是否注入属性扩展点）
