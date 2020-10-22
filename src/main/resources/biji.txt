@@ -136,6 +136,13 @@ org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#pop
 	if (resolvedAutowireMode == AUTOWIRE_BY_NAME || resolvedAutowireMode == AUTOWIRE_BY_TYPE) {
         MutablePropertyValues newPvs = new MutablePropertyValues(pvs);
     newPvs:如果是自动注入，除了程序员提供的，spring还会自己推断，手动注入则不会有
+    desc.setContainingClass：属性所在的类，Class X{@Autowired Y y},X.class-->ContainingClass，desc-->y的包装类
+    ConstructorResolver.setCurrentInjectionPoint(descriptor)：不明白有什么意义
+    multipleBeans：@Autowired List<Y> listy（集合，多个）的情况;
+    matchingBeans：匹配到的bean，可能有多个，
+                   例如注入接口@Autowired I i，Y和Z都实现了I，则有两个，此时无法注入
+                   但如果接口@Autowired I y，则会注入Y，因为@Autowired先根据类型找，再"根据名字找"
+                   "根据名字找"是指，在根据类型找的结果中按照名字找，而不是在spring容器中重新按照名字找
 	*/
 7、8、初始化方法（生命周期回调方法， InitializingBean @PostConstructor）
 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#initializeBean
