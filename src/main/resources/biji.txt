@@ -143,6 +143,14 @@ org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#pop
                    例如注入接口@Autowired I i，Y和Z都实现了I，则有两个，此时无法注入
                    但如果接口@Autowired I y，则会注入Y，因为@Autowired先根据类型找，再"根据名字找"
                    "根据名字找"是指，在根据类型找的结果中按照名字找，而不是在spring容器中重新按照名字找
+    resolvableDependencies：判断属性是不是四种特殊类型，是的话做特殊处理
+                            ApplicationContext，ApplicationEventPublisher，BeanFactory，ResourceLoader
+    getAutowireCandidateResolver().getLazyResolutionProxyIfNecessary
+                   为加了@Lazy的属性生成cglib代理
+                   在@Bean和@Component上加@Lazy会延迟加载，而其他地方的@Lazy立即加载，可见@Lazy的注释
+    cached：注入属性的缓存，第一次找属性的时候要按流程找，找完之后将cached置为true，并把找到的属性信息存cachedFieldValue中，
+            后续注入直接按照cachedFieldValue中的信息从spring容器中取
+            可能的场景是，scope为request时，提升效率
 	*/
 7、8、初始化方法（生命周期回调方法， InitializingBean @PostConstructor）
 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#initializeBean
